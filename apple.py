@@ -16,6 +16,7 @@ EMAIL_RE = re.compile(
     re.IGNORECASE,
 )
 README_PATH = "README.md"
+HTML_PATH = "docs/index.html"
 PLACEHOLDER_START = "<!-- apple starts -->"
 PLACEHOLDER_END   = "<!-- apple ends -->"
 
@@ -49,6 +50,7 @@ for url in urls:
 all_accounts = list(dict.fromkeys(all_accounts))
 print(f"\n📦 共获取 {len(all_accounts)} 个账号（去重后）")
 
+# ── 更新 README.md ─────────────────────────────────────────────────────────────
 if all_accounts:
     block_lines = ["| Apple ID | 备注 |", "|----------|------|"]
     for acc in all_accounts:
@@ -67,9 +69,7 @@ pattern = re.compile(
     rf"{re.escape(PLACEHOLDER_START)}.*?{re.escape(PLACEHOLDER_END)}",
     re.DOTALL,
 )
-
 replacement = f"{PLACEHOLDER_START}\n{new_block}\n{PLACEHOLDER_END}"
-
 if PLACEHOLDER_START in content:
     new_content = pattern.sub(replacement, content)
 else:
@@ -81,4 +81,87 @@ try:
     print("✅ README.md 更新完成")
 except Exception as e:
     print(f"❌ 写入 README.md 失败: {e}")
+    sys.exit(1)
+
+# ── 更新 docs/index.html ───────────────────────────────────────────────────────
+from datetime import datetime
+update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+if all_accounts:
+    rows = ""
+    for acc in all_accounts:
+        rows += f"""
+        <tr>
+          <td><span class="account">{acc}</span></td>
+          <td><button onclick="copyText('{acc}')">复制</button></td>
+        </tr>"""
+    table_html = f"""
+    <p class="count">共 {len(all_accounts)} 个账号 · 更新时间：{update_time}</p>
+    <table>
+      <thead><tr><th>Apple ID</th><th>操作</th></tr></thead>
+      <tbody>{rows}
+      </tbody>
+    </table>"""
+else:
+    table_html = "<p class='empty'>暂未抓取到账号，请稍后刷新。</p>"
+
+html = f"""<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍎 共享 Apple ID</title>
+  <style>
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+           background: #f5f5f7; color: #1d1d1f; padding: 20px; }}
+    h1 {{ text-align: center; margin: 30px 0 10px; font-size: 2em; }}
+    .subtitle {{ text-align: center; color: #6e6e73; margin-bottom: 30px; font-size: 0.9em; }}
+    .count {{ text-align: center; color: #6e6e73; margin-bottom: 15px; font-size: 0.85em; }}
+    .container {{ max-width: 700px; margin: 0 auto; }}
+    table {{ width: 100%; border-collapse: collapse; background: white;
+             border-radius: 12px; overflow: hidden;
+             box-shadow: 0 2px 12px rgba(0,0,0,0.08); }}
+    thead {{ background: #1d1d1f; color: white; }}
+    th, td {{ padding: 14px 18px; text-align: left; border-bottom: 1px solid #f0f0f0; }}
+    tr:last-child td {{ border-bottom: none; }}
+    tr:hover {{ background: #f9f9f9; }}
+    .account {{ font-family: monospace; font-size: 0.95em; }}
+    button {{ background: #0071e3; color: white; border: none;
+              padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85em; }}
+    button:hover {{ background: #0077ed; }}
+    button.copied {{ background: #34c759; }}
+    .empty {{ text-align: center; padding: 40px; color: #6e6e73; }}
+    .toast {{ position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+              background: #333; color: white; padding: 10px 24px;
+              border-radius: 20px; font-size: 0.9em; opacity: 0; transition: opacity 0.3s; }}
+    .toast.show {{ opacity: 1; }}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🍎 共享 Apple ID</h1>
+    <p class="subtitle">每30分钟自动更新 · 仅供学习使用</p>
+    {table_html}
+  </div>
+  <div class="toast" id="toast">✅ 已复制！</div>
+  <script>
+    function copyText(text) {{
+      navigator.clipboard.writeText(text).then(() => {{
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      }});
+    }}
+  </script>
+</body>
+</html>"""
+
+os.makedirs("docs", exist_ok=True)
+try:
+    with open(HTML_PATH, "w", encoding="utf-8") as f:
+        f.write(html)
+    print("✅ docs/index.html 更新完成")
+except Exception as e:
+    print(f"❌ 写入 docs/index.html 失败: {e}")
     sys.exit(1)
