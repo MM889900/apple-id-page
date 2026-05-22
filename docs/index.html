@@ -3,107 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🍎 小火箭共享账号 - 每日更新</title>
+  <title>🍎 小火箭共享账号</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { 
-      font-family: "Microsoft YaHei", system-ui, sans-serif; 
-      background: #f0f2f5; 
-      color: #1d1d1f; 
-      padding: 20px; 
-    }
-    .lock-box { 
-      max-width: 360px; 
-      margin: 100px auto; 
-      background: #fff; 
-      border-radius: 16px; 
-      padding: 36px; 
-      box-shadow: 0 4px 24px rgba(0,0,0,0.1); 
-      text-align: center; 
-    }
-    .lock-box .icon { font-size: 3em; margin-bottom: 16px; }
-    .lock-box h2 { font-size: 1.4em; margin-bottom: 8px; }
-    .lock-box p { color: #888; font-size: 0.9em; margin-bottom: 20px; }
-    .lock-box input { 
-      width: 100%; 
-      padding: 12px; 
-      border: 1.5px solid #ddd; 
-      border-radius: 10px; 
-      font-size: 1em; 
-      text-align: center; 
-      outline: none; 
-    }
-    .lock-box input:focus { border-color: #0071e3; }
-    .lock-box button { 
-      width: 100%; 
-      margin-top: 12px; 
-      padding: 12px; 
-      background: #0071e3; 
-      color: #fff; 
-      border: none; 
-      border-radius: 10px; 
-      font-size: 1em; 
-      cursor: pointer; 
-    }
-    .lock-box button:hover { background: #005bb5; }
-    .err { color: #ff3b30; font-size: 0.85em; margin-top: 10px; display: none; }
-
-    .wrap { 
-      max-width: 1100px; 
-      margin: 0 auto; 
-      padding: 20px; 
-      display: none; 
-    }
-    .header { text-align: center; padding: 30px 0 20px; }
-    .header h1 { font-size: 1.8em; margin-bottom: 6px; }
-    .header p { color: #888; font-size: 0.9em; }
-    .warn { 
-      background: #fff8e1; 
-      border-left: 4px solid #ffc107; 
-      padding: 12px 16px; 
-      border-radius: 8px; 
-      font-size: 0.85em; 
-      color: #7a6000; 
-      margin-bottom: 20px; 
-    }
-    .grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-      gap: 16px; 
-    }
-    .card { 
-      background: #fff; 
-      border-radius: 14px; 
-      padding: 18px; 
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07); 
-      border: 2px solid transparent; 
-    }
-    .card:hover { border-color: #0071e3; }
-    button { 
-      background: #0071e3; 
-      color: #fff; 
-      border: none; 
-      padding: 9px 16px; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      margin: 4px; 
-    }
-    button:hover { background: #005bb5; }
-    .toast { 
-      position: fixed; 
-      bottom: 30px; 
-      left: 50%; 
-      transform: translateX(-50%); 
-      background: #333; 
-      color: #fff; 
-      padding: 10px 24px; 
-      border-radius: 20px; 
-      font-size: 0.9em; 
-      opacity: 0; 
-      transition: opacity 0.3s; 
-      z-index: 999; 
-    }
-    .toast.show { opacity: 1; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Microsoft YaHei",sans-serif;background:#f0f2f5;color:#1d1d1f}
+    .lock-box{max-width:360px;margin:100px auto;background:#fff;border-radius:16px;padding:36px;box-shadow:0 4px 24px rgba(0,0,0,.1);text-align:center}
+    .lock-box .icon{font-size:3em;margin-bottom:16px}
+    .lock-box h2{font-size:1.4em;margin-bottom:8px}
+    .lock-box p{color:#888;font-size:.9em;margin-bottom:20px}
+    .lock-box input{width:100%;padding:12px;border:1.5px solid #ddd;border-radius:10px;font-size:1em;text-align:center;outline:none}
+    .lock-box input:focus{border-color:#0071e3}
+    .lock-box button{width:100%;margin-top:12px;padding:12px;background:#0071e3;color:#fff;border:none;border-radius:10px;font-size:1em;cursor:pointer}
+    .lock-box button:hover{background:#005bb5}
+    .err{color:#ff3b30;font-size:.85em;margin-top:10px;display:none}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px;display:none}
+    .header{text-align:center;padding:30px 0 20px}
+    .header h1{font-size:1.8em;margin-bottom:6px}
+    .header p{color:#888;font-size:.9em}
+    .warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;border-radius:8px;font-size:.85em;color:#7a6000;margin-bottom:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+    .card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.07);border:2px solid transparent}
+    .card:hover{border-color:#0071e3}
+    button{background:#0071e3;color:#fff;border:none;padding:9px 16px;border-radius:8px;cursor:pointer;margin:4px}
+    button:hover{background:#005bb5}
   </style>
 </head>
 <body>
@@ -126,25 +48,50 @@
   <div class="grid" id="grid"></div>
 </div>
 
-<div class="toast" id="toast">✅ 已复制！</div>
-
 <script>
-const _d = []; // 这里后续会由 python 填充
-const _p = "apple2026";   // ← 修改成你设置的密码
+const _d = [92,124,37,102,100,100,37,61,39,37,116,104,119,111,110,102,41,101,117,104,112,105,71,110,100,107,104,114,99,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,82,76,110,99,36,48,48,63,63,37,43,39,37,117,98,96,110,104,105,37,61,39,37,33526,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,111,102,105,116,41,106,114,98,107,107,98,117,71,110,100,107,104,114,99,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,64,98,117,106,102,105,126,71,53,51,37,43,39,37,117,98,96,110,104,105,37,61,39,37,24496,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,105,96,41,127,110,102,104,111,114,110,71,106,98,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,75,110,104,105,71,53,55,53,51,37,43,39,37,117,98,96,110,104,105,37,61,39,37,26039,21159,22374,37,122,43,39,124,37,102,100,100,37,61,39,37,117,104,101,98,117,115,41,112,111,110,115,98,71,110,100,107,104,114,99,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,84,115,104,117,98,71,49,50,51,37,43,39,37,117,98,96,110,104,105,37,61,39,37,32649,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,116,102,115,104,41,111,102,117,114,108,110,71,96,106,102,110,107,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,72,116,102,108,102,71,50,50,49,49,37,43,39,37,117,98,96,110,104,105,37,61,39,37,26082,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,105,102,108,102,106,114,117,102,41,117,98,105,71,106,98,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,84,102,108,114,117,102,71,54,53,52,37,43,39,37,117,98,96,110,104,105,37,61,39,37,26082,21309,37,122,90];
+const _p = "ios3";
 
-function deobf(arr) {
-  return arr.map(n => String.fromCharCode(n ^ 7)).join('');
+function deobf(arr){return arr.map(n=>String.fromCharCode(n^7)).join('');}
+
+function checkPwd(){
+  if(document.getElementById('pwdInput').value.trim()===_p){
+    document.getElementById('lockBox').style.display='none';
+    document.getElementById('mainContent').style.display='block';
+    renderCards();
+    sessionStorage.setItem('auth','1');
+  }else{
+    document.getElementById('errMsg').style.display='block';
+  }
 }
 
-function checkPwd() {
-  if (document.getElementById('pwdInput').value.trim() === _p) {
-    document.getElementById('lockBox').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'block';
-    // renderCards();  // 后续由 python 动态生成
-    sessionStorage.setItem('auth', '1');
-  } else {
-    document.getElementById('errMsg').style.display = 'block';
-  }
+function renderCards(){
+  let data = [];
+  try{data = JSON.parse(deobf(_d));}catch(e){}
+  const grid = document.getElementById('grid');
+  grid.innerHTML = data.map(item => `
+    <div class="card">
+      <div style="font-size:1.05em;font-family:monospace">${item.acc}</div>
+      <div style="margin:8px 0;color:#0071e3">地区：${item.region}</div>
+      <div style="background:#f8f8f8;padding:10px;border-radius:8px;margin:10px 0">密码：${item.pwd}</div>
+      <button onclick="copy('${item.acc}',this)">复制账号</button>
+      <button onclick="copy('${item.pwd}',this)">复制密码</button>
+    </div>
+  `).join('');
+}
+
+function copy(t,btn){
+  navigator.clipboard.writeText(t).then(()=>{
+    const old = btn.textContent;
+    btn.textContent = '✅ 已复制';
+    setTimeout(() => btn.textContent = old, 2000);
+  });
+}
+
+if(sessionStorage.getItem('auth')==='1'){
+  document.getElementById('lockBox').style.display='none';
+  document.getElementById('mainContent').style.display='block';
+  renderCards();
 }
 </script>
 </body>

@@ -3,8 +3,10 @@
 <!-- apple starts -->
 | Apple ID | 地区 |
 |----------|------|
-| `fatima.hassan@gmail.com` | 阿联酋 |
-| `harry.williams@me.com` | 英区 |
-| `david.taylor@gmail.com` | 美区 |
-| `li.weiwei@me.com` | 港区 |
+| `sophia.brown@icloud.com` | 英区 |
+| `hans.mueller@icloud.com` | 德区 |
+| `ng.xiaohui@me.com` | 新加坡 |
+| `robert.white@icloud.com` | 美区 |
+| `sato.haruki@gmail.com` | 日区 |
+| `nakamura.ren@me.com` | 日区 |
 <!-- apple ends -->
