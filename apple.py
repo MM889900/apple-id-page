@@ -2,6 +2,8 @@ import os
 import sys
 import json
 import re
+import random
+import time
 from datetime import datetime
 
 README_PATH = "README.md"
@@ -12,7 +14,7 @@ PLACEHOLDER_END   = "<!-- apple ends -->"
 
 ACCESS_PASSWORD = os.environ.get("PAGE_PASSWORD", "apple2026")
 
-accounts = []
+all_accounts = []
 try:
     with open(DATA_PATH, "r", encoding="utf-8") as f:
         for line in f:
@@ -24,13 +26,21 @@ try:
                 acc = parts[0].strip()
                 pwd = parts[1].strip()
                 region = parts[2].strip() if len(parts) >= 3 else "未知"
-                accounts.append({"acc": acc, "pwd": pwd, "region": region})
-    print(f"✅ 读取到 {len(accounts)} 个账号")
+                all_accounts.append({"acc": acc, "pwd": pwd, "region": region})
+    print(f"✅ 读取到 {len(all_accounts)} 个账号")
 except FileNotFoundError:
     print("⚠️  data.txt 不存在")
 except Exception as e:
     print(f"❌ 读取失败: {e}")
     sys.exit(1)
+
+# ── 每10分钟轮换显示6个账号 ──────────────────────────────────────
+slot = int(time.time() // 600)
+random.seed(slot)
+shuffled = all_accounts.copy()
+random.shuffle(shuffled)
+accounts = shuffled[:4]
+print(f"✅ 本轮显示 {len(accounts)} 个账号（slot={slot}）")
 
 try:
     with open(README_PATH, "r", encoding="utf-8") as f:
@@ -93,6 +103,7 @@ html = f"""<!DOCTYPE html>
     .header p{{color:#888;font-size:.9em}}
     .warn{{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;border-radius:8px;font-size:.85em;color:#7a6000;margin-bottom:20px;max-width:900px;margin-left:auto;margin-right:auto}}
     .stats{{text-align:center;color:#888;font-size:.85em;margin-bottom:20px}}
+    .countdown{{text-align:center;font-size:.85em;color:#0071e3;margin-bottom:20px;font-weight:500}}
     .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}}
     .card{{background:#fff;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.07);transition:.2s;border:2px solid transparent}}
     .card:hover{{border-color:#0071e3;box-shadow:0 4px 18px rgba(0,113,227,.15)}}
@@ -133,7 +144,8 @@ html = f"""<!DOCTYPE html>
     <p>免费共享账号 · 仅供学习使用 · 请勿修改密码</p>
   </div>
   <div class="warn">⚠️ 请仅在 <strong>App Store</strong> 登录，切勿登录【设置/iCloud】，否则可能导致锁机或隐私泄露！</div>
-  <div class="stats">共 {count} 个账号 · 更新时间：{update_time}</div>
+  <div class="stats">本轮显示 {count} 个账号 · 更新时间：{update_time}</div>
+  <div class="countdown" id="countdown">🔄 下次更换账号：计算中...</div>
   <div class="grid" id="grid"></div>
 </div>
 
@@ -150,6 +162,7 @@ function checkPwd(){{
     document.getElementById('lockBox').style.display='none';
     document.getElementById('mainContent').style.display='block';
     renderCards();
+    startCountdown();
     sessionStorage.setItem('auth','1');
   }}else{{
     document.getElementById('errMsg').style.display='block';
@@ -164,7 +177,6 @@ function renderCards(){{
     grid.innerHTML='<p style="text-align:center;color:#999;padding:40px;grid-column:1/-1">暂无账号数据</p>';
     return;
   }}
-  const now=new Date().toLocaleString('zh-CN');
   grid.innerHTML=data.map((item,i)=>`
     <div class="card">
       <div class="card-top">
@@ -172,7 +184,7 @@ function renderCards(){{
         <span class="status"><span class="dot"></span>正常</span>
       </div>
       <span class="region-tag">【${{item.region}}】</span>
-      <div class="update-time">检测：{update_time}</div>
+      <div class="update-time">更新：{update_time}</div>
       <div class="pwd-row">
         <span class="pwd-label">密码</span>
         <span class="pwd-val" title="悬停查看密码">${{item.pwd}}</span>
@@ -184,6 +196,20 @@ function renderCards(){{
     </div>`).join('');
 }}
 
+function startCountdown(){{
+  function update(){{
+    const now = Math.floor(Date.now()/1000);
+    const next = (Math.floor(now/600)+1)*600;
+    const left = next - now;
+    const m = Math.floor(left/60);
+    const s = left%60;
+    document.getElementById('countdown').textContent =
+      `🔄 下次更换账号：${{m}}分${{String(s).padStart(2,'0')}}秒`;
+  }}
+  update();
+  setInterval(update,1000);
+}}
+
 function cp(t,btn){{
   navigator.clipboard.writeText(t).then(()=>{{
     const o=btn.textContent;
@@ -191,7 +217,7 @@ function cp(t,btn){{
     btn.classList.add('copied');
     setTimeout(()=>{{btn.textContent=o;btn.classList.remove('copied');}},2000);
     const toast=document.getElementById('toast');
-    toast.classList.add('show');
+    toast.classList。add('show');
     setTimeout(()=>toast.classList.remove('show'),2000);
   }});
 }}
@@ -200,6 +226,7 @@ if(sessionStorage.getItem('auth')==='1'){{
   document.getElementById('lockBox').style.display='none';
   document.getElementById('mainContent').style.display='block';
   renderCards();
+  startCountdown();
 }}
 </script>
 </body>
