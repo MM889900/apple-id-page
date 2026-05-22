@@ -34,7 +34,6 @@ except Exception as e:
     print(f"❌ 读取失败: {e}")
     sys.exit(1)
 
-# ── 每10分钟轮换显示6个账号 ──────────────────────────────────────
 slot = int(time.time() // 600)
 random.seed(slot)
 shuffled = all_accounts.copy()
@@ -217,7 +216,7 @@ function cp(t,btn){{
     btn.classList.add('copied');
     setTimeout(()=>{{btn.textContent=o;btn.classList.remove('copied');}},2000);
     const toast=document.getElementById('toast');
-    toast.classList。add('show');
+    toast.classList.add('show');
     setTimeout(()=>toast.classList.remove('show'),2000);
   }});
 }}
