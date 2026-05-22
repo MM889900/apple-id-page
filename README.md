@@ -3,10 +3,10 @@
 <!-- apple starts -->
 | Apple ID | 地区 |
 |----------|------|
-| `ong.jiawen@icloud.com` | 新加坡 |
-| `yamamoto.kenji@me.com` | 日区 |
-| `wu.junhao@me.com` | 台湾 |
-| `cai.mingzhi@gmail.com` | 台湾 |
-| `mary.jackson@gmail.com` | 美区 |
-| `marco.bianchi@me.com` | 意大利 |
+| `jung.hyerin@gmail.com` | 韩区 |
+| `wang.xiaoming@icloud.com` | 港区 |
+| `michael.brown@me.com` | 美区 |
+| `carlos.garcia@icloud.com` | 墨西哥 |
+| `lin.weizhen@icloud.com` | 台湾 |
+| `george.jones@gmail.com` | 英区 |
 <!-- apple ends -->
