@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import re
 from datetime import datetime
 
 README_PATH = "README.md"
@@ -11,7 +12,6 @@ PLACEHOLDER_END   = "<!-- apple ends -->"
 
 ACCESS_PASSWORD = os.environ.get("PAGE_PASSWORD", "apple2026")
 
-# ── 读取 data.txt ──────────────────────────────────────────────
 accounts = []
 try:
     with open(DATA_PATH, "r", encoding="utf-8") as f:
@@ -27,13 +27,11 @@ try:
                 accounts.append({"acc": acc, "pwd": pwd, "region": region})
     print(f"✅ 读取到 {len(accounts)} 个账号")
 except FileNotFoundError:
-    print("⚠️  data.txt 不存在，生成空页面")
+    print("⚠️  data.txt 不存在")
 except Exception as e:
-    print(f"❌ 读取 data.txt 失败: {e}")
+    print(f"❌ 读取失败: {e}")
     sys.exit(1)
 
-# ── 更新 README.md ─────────────────────────────────────────────
-import re
 try:
     with open(README_PATH, "r", encoding="utf-8") as f:
         content = f.read()
@@ -63,17 +61,14 @@ except Exception as e:
     print(f"❌ 写入 README.md 失败: {e}")
     sys.exit(1)
 
-# ── 混淆函数 ───────────────────────────────────────────────────
 def obfuscate(text):
     return ','.join(str(ord(c) ^ 7) for c in text)
 
 update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 count = len(accounts)
-
 data_json = json.dumps(accounts, ensure_ascii=False)
 obf_data = obfuscate(data_json)
 
-# ── 生成 HTML ──────────────────────────────────────────────────
 html = f"""<!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -82,55 +77,64 @@ html = f"""<!DOCTYPE html>
   <title>🍎 共享 Apple ID</title>
   <style>
     *{{box-sizing:border-box;margin:0;padding:0}}
-    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f7;color:#1d1d1f;padding:20px}}
-    h1{{text-align:center;margin:30px 0 8px;font-size:2em}}
-    .sub{{text-align:center;color:#6e6e73;margin-bottom:24px;font-size:.9em}}
-    .lock-box{{max-width:360px;margin:80px auto;background:#fff;border-radius:16px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.1);text-align:center}}
-    .lock-box h2{{margin-bottom:8px;font-size:1.3em}}
-    .lock-box p{{color:#6e6e73;font-size:.9em;margin-bottom:20px}}
-    .lock-box input{{width:100%;padding:12px;border:1.5px solid #ddd;border-radius:10px;font-size:1em;text-align:center;outline:none}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:#1d1d1f}}
+    .lock-box{{max-width:360px;margin:100px auto;background:#fff;border-radius:16px;padding:36px;box-shadow:0 4px 24px rgba(0,0,0,.1);text-align:center}}
+    .lock-box .icon{{font-size:3em;margin-bottom:16px}}
+    .lock-box h2{{font-size:1.4em;margin-bottom:8px}}
+    .lock-box p{{color:#888;font-size:.9em;margin-bottom:20px}}
+    .lock-box input{{width:100%;padding:12px;border:1.5px solid #ddd;border-radius:10px;font-size:1em;text-align:center;outline:none;transition:.2s}}
     .lock-box input:focus{{border-color:#0071e3}}
-    .lock-box button{{width:100%;margin-top:12px;padding:12px;background:#0071e3;color:#fff;border:none;border-radius:10px;font-size:1em;cursor:pointer}}
-    .lock-box button:hover{{background:#0077ed}}
-    .lock-box .err{{color:#ff3b30;font-size:.85em;margin-top:8px;display:none}}
-    .container{{max-width:780px;margin:0 auto;display:none}}
-    .info{{text-align:center;color:#6e6e73;font-size:.85em;margin-bottom:14px}}
-    table{{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}}
-    thead{{background:#1d1d1f;color:#fff}}
-    th,td{{padding:13px 16px;text-align:left;border-bottom:1px solid #f0f0f0;font-size:.9em}}
-    tr:last-child td{{border-bottom:none}}
-    tr:hover{{background:#f9f9f9}}
-    .acc{{font-family:monospace}}
-    .pwd{{font-family:monospace;filter:blur(4px);cursor:pointer;transition:.2s}}
-    .pwd:hover{{filter:none}}
-    .region{{background:#e8f4fd;color:#0071e3;padding:2px 8px;border-radius:20px;font-size:.8em}}
-    .warn{{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;border-radius:8px;font-size:.85em;color:#7a6000;margin-bottom:16px}}
-    button.copy{{background:#0071e3;color:#fff;border:none;padding:5px 10px;border-radius:7px;cursor:pointer;font-size:.8em;margin-right:4px}}
-    button.copy:hover{{background:#0077ed}}
-    button.copied{{background:#34c759}}
-    .toast{{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 24px;border-radius:20px;font-size:.9em;opacity:0;transition:opacity .3s;pointer-events:none}}
+    .lock-box button{{width:100%;margin-top:12px;padding:12px;background:#0071e3;color:#fff;border:none;border-radius:10px;font-size:1em;cursor:pointer;transition:.2s}}
+    .lock-box button:hover{{background:#005bb5}}
+    .err{{color:#ff3b30;font-size:.85em;margin-top:10px;display:none}}
+    .wrap{{max-width:1100px;margin:0 auto;padding:20px;display:none}}
+    .header{{text-align:center;padding:30px 0 20px}}
+    .header h1{{font-size:1.8em;margin-bottom:6px}}
+    .header p{{color:#888;font-size:.9em}}
+    .warn{{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;border-radius:8px;font-size:.85em;color:#7a6000;margin-bottom:20px;max-width:900px;margin-left:auto;margin-right:auto}}
+    .stats{{text-align:center;color:#888;font-size:.85em;margin-bottom:20px}}
+    .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}}
+    .card{{background:#fff;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.07);transition:.2s;border:2px solid transparent}}
+    .card:hover{{border-color:#0071e3;box-shadow:0 4px 18px rgba(0,113,227,.15)}}
+    .card-top{{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}}
+    .acc{{font-family:monospace;font-size:.95em;font-weight:600;color:#1d1d1f;word-break:break-all}}
+    .status{{display:flex;align-items:center;gap:5px;font-size:.8em;color:#34c759;white-space:nowrap}}
+    .dot{{width:8px;height:8px;background:#34c759;border-radius:50%;animation:pulse 2s infinite}}
+    @keyframes pulse{{0%,100%{{opacity:1}}50%{{opacity:.4}}}}
+    .region-tag{{display:inline-block;background:#e8f4fd;color:#0071e3;padding:3px 10px;border-radius:20px;font-size:.78em;font-weight:500;margin-bottom:12px}}
+    .update-time{{font-size:.75em;color:#aaa;margin-bottom:14px}}
+    .pwd-row{{display:flex;align-items:center;gap:8px;margin-bottom:14px;background:#f8f8f8;border-radius:8px;padding:8px 12px}}
+    .pwd-label{{font-size:.8em;color:#888;white-space:nowrap}}
+    .pwd-val{{font-family:monospace;font-size:.9em;filter:blur(5px);cursor:pointer;transition:.2s;flex:1}}
+    .pwd-val:hover{{filter:none}}
+    .btns{{display:grid;grid-template-columns:1fr 1fr;gap:8px}}
+    .btn{{padding:9px;border:1.5px solid #0071e3;color:#0071e3;background:#fff;border-radius:9px;cursor:pointer;font-size:.85em;font-weight:500;transition:.2s}}
+    .btn:hover{{background:#0071e3;color:#fff}}
+    .btn.copied{{background:#34c759;border-color:#34c759;color:#fff}}
+    .toast{{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 24px;border-radius:20px;font-size:.9em;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}}
     .toast.show{{opacity:1}}
+    @media(max-width:600px){{.grid{{grid-template-columns:1fr}}}}
   </style>
 </head>
 <body>
+
 <div class="lock-box" id="lockBox">
-  <div style="font-size:2.5em;margin-bottom:12px">🔐</div>
+  <div class="icon">🔐</div>
   <h2>访问验证</h2>
   <p>请输入访问密码查看共享账号</p>
   <input type="password" id="pwdInput" placeholder="请输入密码" onkeydown="if(event.key==='Enter')checkPwd()">
-  <button onclick="checkPwd()">确认</button>
+  <button onclick="checkPwd()">确认进入</button>
   <div class="err" id="errMsg">密码错误，请重试</div>
 </div>
 
-<div class="container" id="mainContent">
-  <h1>🍎 共享 Apple ID</h1>
-  <p class="sub">仅供学习使用 · 请勿修改密码</p>
-  <div class="warn">⚠️ 请仅在 <strong>App Store</strong> 登录，切勿登录 iCloud，否则可能锁机！</div>
-  <div class="info">共 {count} 个账号 · 更新时间：{update_time}</div>
-  <table>
-    <thead><tr><th>Apple ID</th><th>密码（悬停显示）</th><th>地区</th><th>操作</th></tr></thead>
-    <tbody id="tbody"></tbody>
-  </table>
+<div class="wrap" id="mainContent">
+  <div class="header">
+    <h1>🍎 共享 Apple ID</h1>
+    <p>免费共享账号 · 仅供学习使用 · 请勿修改密码</p>
+  </div>
+  <div class="warn">⚠️ 请仅在 <strong>App Store</strong> 登录，切勿登录【设置/iCloud】，否则可能导致锁机或隐私泄露！</div>
+  <div class="stats">共 {count} 个账号 · 更新时间：{update_time}</div>
+  <div class="grid" id="grid"></div>
 </div>
 
 <div class="toast" id="toast">✅ 已复制！</div>
@@ -139,59 +143,63 @@ html = f"""<!DOCTYPE html>
 const _d = [{obf_data}];
 const _p = "{ACCESS_PASSWORD}";
 
-function deobf(arr) {{
-  return arr.map(n => String.fromCharCode(n ^ 7)).join('');
-}}
+function deobf(arr){{return arr.map(n=>String.fromCharCode(n^7)).join('');}}
 
-function checkPwd() {{
-  const v = document.getElementById('pwdInput').value.trim();
-  if (v === _p) {{
-    document.getElementById('lockBox').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'block';
-    renderTable();
+function checkPwd(){{
+  if(document.getElementById('pwdInput').value.trim()===_p){{
+    document.getElementById('lockBox').style.display='none';
+    document.getElementById('mainContent').style.display='block';
+    renderCards();
     sessionStorage.setItem('auth','1');
-  }} else {{
-    document.getElementById('errMsg').style.display = 'block';
+  }}else{{
+    document.getElementById('errMsg').style.display='block';
   }}
 }}
 
-function renderTable() {{
-  const raw = deobf(_d);
-  let data = [];
-  try {{ data = JSON.parse(raw); }} catch(e) {{}}
-  const tbody = document.getElementById('tbody');
-  if (!data.length) {{
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#999;padding:30px">暂无账号数据</td></tr>';
+function renderCards(){{
+  let data=[];
+  try{{data=JSON.parse(deobf(_d));}}catch(e){{}}
+  const grid=document.getElementById('grid');
+  if(!data.length){{
+    grid.innerHTML='<p style="text-align:center;color:#999;padding:40px;grid-column:1/-1">暂无账号数据</p>';
     return;
   }}
-  tbody.innerHTML = data.map(item => `
-    <tr>
-      <td class="acc">${{item.acc}}</td>
-      <td><span class="pwd" title="悬停查看密码">${{item.pwd}}</span></td>
-      <td><span class="region">${{item.region}}</span></td>
-      <td>
-        <button class="copy" onclick="copyText('${{item.acc}}',this)">复制账号</button>
-        <button class="copy" onclick="copyText('${{item.pwd}}',this)">复制密码</button>
-      </td>
-    </tr>`).join('');
+  const now=new Date().toLocaleString('zh-CN');
+  grid.innerHTML=data.map((item,i)=>`
+    <div class="card">
+      <div class="card-top">
+        <span class="acc">${{item.acc}}</span>
+        <span class="status"><span class="dot"></span>正常</span>
+      </div>
+      <span class="region-tag">【${{item.region}}】</span>
+      <div class="update-time">检测：{update_time}</div>
+      <div class="pwd-row">
+        <span class="pwd-label">密码</span>
+        <span class="pwd-val" title="悬停查看密码">${{item.pwd}}</span>
+      </div>
+      <div class="btns">
+        <button class="btn" onclick="cp('${{item.acc}}',this)">复制账号</button>
+        <button class="btn" onclick="cp('${{item.pwd}}',this)">复制密码</button>
+      </div>
+    </div>`).join('');
 }}
 
-function copyText(t, btn) {{
-  navigator.clipboard.writeText(t).then(() => {{
-    const orig = btn.textContent;
-    btn.textContent = '✅';
+function cp(t,btn){{
+  navigator.clipboard.writeText(t).then(()=>{{
+    const o=btn.textContent;
+    btn.textContent='✅ 已复制';
     btn.classList.add('copied');
-    setTimeout(() => {{ btn.textContent = orig; btn.classList.remove('copied'); }}, 2000);
-    const toast = document.getElementById('toast');
+    setTimeout(()=>{{btn.textContent=o;btn.classList.remove('copied');}},2000);
+    const toast=document.getElementById('toast');
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
+    setTimeout(()=>toast.classList.remove('show'),2000);
   }});
 }}
 
-if (sessionStorage.getItem('auth') === '1') {{
-  document.getElementById('lockBox').style.display = 'none';
-  document.getElementById('mainContent').style.display = 'block';
-  renderTable();
+if(sessionStorage.getItem('auth')==='1'){{
+  document.getElementById('lockBox').style.display='none';
+  document.getElementById('mainContent').style.display='block';
+  renderCards();
 }}
 </script>
 </body>
