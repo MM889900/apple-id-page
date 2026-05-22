@@ -20,7 +20,6 @@
     button:hover{background:#0056b3}
     .buy-btn{background:#ff4757;color:white;font-size:19px;padding:20px 40px;width:100%;font-weight:bold;border-radius:12px;margin:35px 0}
     .buy-btn:hover{background:#ff3746}
-    .guide,.faq{background:white;border-radius:12px;padding:25px;margin:25px 0;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
     .footer{text-align:center;color:#555;margin:60px 0;font-size:0.98em}
   </style>
 </head>
@@ -38,45 +37,24 @@
 
   <div class="grid" id="grid"></div>
 
-  <!-- 主站大按钮 -->
   <a href="https://www.qianxun1688.com/liebiao/2A2466E850439A7A" target="_blank">
     <button class="buy-btn">🛒 点击进入主站购买独享稳定账号 → 长期稳定 · 自动发货</button>
   </a>
 
-  <!-- 使用指南 -->
-  <div class="guide">
-    <h3>📖 使用指南</h3>
-    <ol>
-      <li>设置 → Apple ID → 退出当前账号</li>
-      <li>打开 App Store，使用上方账号登录</li>
-      <li>搜索并下载 / 更新 Shadowrocket</li>
-      <li>导入节点即可使用</li>
-    </ol>
-  </div>
-
-  <!-- FAQ -->
-  <div class="faq">
-    <h3>❓ 常见问题解答 (FAQ)</h3>
-    <p><strong>Q：账号能登录 iCloud 吗？</strong><br>
-    A：不能！仅用于 App Store 下载/更新，登录 iCloud 可能锁机。</p>
-    <p><strong>Q：账号多久更新一次？</strong><br>
-    A：每10分钟自动随机刷新显示。</p>
-    <p><strong>Q：账号失效了怎么办？</strong><br>
-    A：刷新页面获取最新账号，或购买主站独享稳定账号。</p>
-  </div>
-
   <div class="footer">
-    短域名：<strong>ios3.cn</strong> | 喜欢本站请按 Ctrl + D 收藏<br>
-    本站仅供学习测试 · 账号来自海外社区贡献
+    短域名：<strong>ios3.cn</strong> | 喜欢本站请按 Ctrl + D 收藏
   </div>
 </div>
 
 <script>
-const accounts = []; // python 会动态填充
+const _d = [92,124,37,102,100,100,37,61,39,37,106,102,117,110,98,41,101,98,117,105,102,117,99,71,96,106,102,110,107,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,87,102,117,110,116,36,63,63,49,49,37,43,39,37,117,98,96,110,104,105,37,61,39,37,27858,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,107,110,105,41,112,98,110,125,111,98,105,71,110,100,107,104,114,99,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,83,80,71,63,63,63,63,63,37,43,39,37,117,98,96,110,104,105,37,61,39,37,21495,28281,37,122,43,39,124,37,102,100,100,37,61,39,37,111,102,105,116,41,106,114,98,107,107,98,117,71,110,100,107,104,114,99,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,64,98,117,106,102,105,126,71,53,51,37,43,39,37,117,98,96,110,104,105,37,61,39,37,24496,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,116,102,117,102,111,41,112,110,107,116,104,105,62,62,71,110,100,107,104,114,99,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,95,126,125,36,62,62,62,62,37,43,39,37,117,98,96,110,104,105,37,61,39,37,32649,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,116,102,115,104,41,111,102,117,114,108,110,71,96,106,102,110,107,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,72,116,102,108,102,71,50,50,49,49,37,43,39,37,117,98,96,110,104,105,37,61,39,37,26082,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,109,102,106,98,116,41,115,111,104,106,102,116,71,106,98,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,80,104,117,107,99,71,48,63,62,37,43,39,37,117,98,96,110,104,105,37,61,39,37,32649,21309,37,122,90];
 
-function render() {
+function deobf(arr){return arr.map(n=>String.fromCharCode(n^7)).join('');}
+
+function render(){
+  let data = JSON.parse(deobf(_d));
   const grid = document.getElementById('grid');
-  grid.innerHTML = accounts.map(item => `
+  grid.innerHTML = data.map(item => `
     <div class="card">
       <div class="region">【${item.region}】</div>
       <div class="acc">${item.acc}</div>
@@ -87,8 +65,8 @@ function render() {
   `).join('');
 }
 
-function copy(text, btn) {
-  navigator.clipboard.writeText(text).then(() => {
+function copy(t,btn){
+  navigator.clipboard.writeText(t).then(()=>{
     const old = btn.textContent;
     btn.textContent = '✅ 已复制';
     setTimeout(() => btn.textContent = old, 2000);
@@ -97,6 +75,5 @@ function copy(text, btn) {
 
 render();
 </script>
-
 </body>
 </html>
