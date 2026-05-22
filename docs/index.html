@@ -17,16 +17,19 @@
     .lock-box button{width:100%;margin-top:12px;padding:12px;background:#0071e3;color:#fff;border:none;border-radius:10px;font-size:1em;cursor:pointer}
     .lock-box button:hover{background:#0077ed}
     .lock-box .err{color:#ff3b30;font-size:.85em;margin-top:8px;display:none}
-    .container{max-width:720px;margin:0 auto;display:none}
+    .container{max-width:780px;margin:0 auto;display:none}
     .info{text-align:center;color:#6e6e73;font-size:.85em;margin-bottom:14px}
     table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}
     thead{background:#1d1d1f;color:#fff}
-    th,td{padding:13px 16px;text-align:left;border-bottom:1px solid #f0f0f0}
+    th,td{padding:13px 16px;text-align:left;border-bottom:1px solid #f0f0f0;font-size:.9em}
     tr:last-child td{border-bottom:none}
     tr:hover{background:#f9f9f9}
-    .acc{font-family:monospace;font-size:.9em}
+    .acc{font-family:monospace}
+    .pwd{font-family:monospace;filter:blur(4px);cursor:pointer;transition:.2s}
+    .pwd:hover{filter:none}
+    .region{background:#e8f4fd;color:#0071e3;padding:2px 8px;border-radius:20px;font-size:.8em}
     .warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;border-radius:8px;font-size:.85em;color:#7a6000;margin-bottom:16px}
-    button.copy{background:#0071e3;color:#fff;border:none;padding:5px 12px;border-radius:7px;cursor:pointer;font-size:.82em}
+    button.copy{background:#0071e3;color:#fff;border:none;padding:5px 10px;border-radius:7px;cursor:pointer;font-size:.8em;margin-right:4px}
     button.copy:hover{background:#0077ed}
     button.copied{background:#34c759}
     .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 24px;border-radius:20px;font-size:.9em;opacity:0;transition:opacity .3s;pointer-events:none}
@@ -34,8 +37,6 @@
   </style>
 </head>
 <body>
-
-<!-- 锁屏层 -->
 <div class="lock-box" id="lockBox">
   <div style="font-size:2.5em;margin-bottom:12px">🔐</div>
   <h2>访问验证</h2>
@@ -45,14 +46,13 @@
   <div class="err" id="errMsg">密码错误，请重试</div>
 </div>
 
-<!-- 内容层（默认隐藏） -->
 <div class="container" id="mainContent">
   <h1>🍎 共享 Apple ID</h1>
-  <p class="sub">每30分钟自动更新 · 仅供学习使用</p>
+  <p class="sub">仅供学习使用 · 请勿修改密码</p>
   <div class="warn">⚠️ 请仅在 <strong>App Store</strong> 登录，切勿登录 iCloud，否则可能锁机！</div>
-  <div class="info" id="info">共 0 个账号 · 更新时间：2026-05-22 07:08:00</div>
+  <div class="info">共 3 个账号 · 更新时间：2026-05-22 07:48:28</div>
   <table>
-    <thead><tr><th>Apple ID</th><th>操作</th></tr></thead>
+    <thead><tr><th>Apple ID</th><th>密码（悬停显示）</th><th>地区</th><th>操作</th></tr></thead>
     <tbody id="tbody"></tbody>
   </table>
 </div>
@@ -60,11 +60,9 @@
 <div class="toast" id="toast">✅ 已复制！</div>
 
 <script>
-// 混淆数据
-const _d = [92,90];
+const _d = [92,124,37,102,100,100,37,61,39,37,36129,21488,37,43,39,37,119,112,99,37,61,39,37,23489,30726,37,43,39,37,117,98,96,110,104,105,37,61,39,37,22327,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,127,127,127,71,110,100,107,104,114,99,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,70,101,100,54,53,52,51,50,37,43,39,37,117,98,96,110,104,105,37,61,39,37,32649,21309,37,122,43,39,124,37,102,100,100,37,61,39,37,126,126,126,71,96,106,102,110,107,41,100,104,106,37,43,39,37,119,112,99,37,61,39,37,87,102,116,116,63,63,63,63,37,43,39,37,117,98,96,110,104,105,37,61,39,37,28200,21309,37,122,90];
 const _p = "Zx112211";
 
-// 解混淆
 function deobf(arr) {
   return arr.map(n => String.fromCharCode(n ^ 7)).join('');
 }
@@ -83,32 +81,37 @@ function checkPwd() {
 
 function renderTable() {
   const raw = deobf(_d);
-  let accounts = [];
-  try { accounts = JSON.parse(raw); } catch(e) {}
+  let data = [];
+  try { data = JSON.parse(raw); } catch(e) {}
   const tbody = document.getElementById('tbody');
-  if (!accounts.length) {
-    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:#999;padding:30px">暂无账号，请稍后刷新</td></tr>';
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#999;padding:30px">暂无账号数据</td></tr>';
     return;
   }
-  tbody.innerHTML = accounts.map(acc => `
+  tbody.innerHTML = data.map(item => `
     <tr>
-      <td class="acc">${acc}</td>
-      <td><button class="copy" onclick="copyText('${acc}',this)">复制</button></td>
+      <td class="acc">${item.acc}</td>
+      <td><span class="pwd" title="悬停查看密码">${item.pwd}</span></td>
+      <td><span class="region">${item.region}</span></td>
+      <td>
+        <button class="copy" onclick="copyText('${item.acc}',this)">复制账号</button>
+        <button class="copy" onclick="copyText('${item.pwd}',this)">复制密码</button>
+      </td>
     </tr>`).join('');
 }
 
 function copyText(t, btn) {
   navigator.clipboard.writeText(t).then(() => {
+    const orig = btn.textContent;
     btn.textContent = '✅';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '复制'; btn.classList.remove('copied'); }, 2000);
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
     const toast = document.getElementById('toast');
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2000);
   });
 }
 
-// 若本次会话已验证，自动解锁
 if (sessionStorage.getItem('auth') === '1') {
   document.getElementById('lockBox').style.display = 'none';
   document.getElementById('mainContent').style.display = 'block';
