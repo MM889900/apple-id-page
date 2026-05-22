@@ -67,7 +67,7 @@ html = f"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🍎 小火箭共享账号 - 每日更新</title>
+  <title>🍎 共享苹果id - 每日更新</title>
   <style>
     *{{box-sizing:border-box;margin:0;padding:0}}
     body{{font-family:"Microsoft YaHei",system-ui,sans-serif;background:#f5f7fa;color:#333;line-height:1.6}}
@@ -90,7 +90,7 @@ html = f"""<!DOCTYPE html>
 <body>
 
 <div class="header">
-  <h1>🍎 小火箭共享账号（每日更新）</h1>
+  <h1>🍎 共享苹果id（每日更新）</h1>
   <p class="sub">日区 / 港区 / 台区 / 美区 Apple ID · 免费 Shadowrocket 节点</p>
 </div>
 
