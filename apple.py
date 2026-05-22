@@ -1,72 +1,52 @@
-import re
 import os
 import sys
-import requests
+import json
 from datetime import datetime
 
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    )
-}
-TIMEOUT = 15
-EMAIL_RE = re.compile(
-    r'[a-zA-Z0-9._%+\-]+@(?:icloud\.com|me\.com|apple\.com|[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})',
-    re.IGNORECASE,
-)
 README_PATH = "README.md"
 HTML_PATH = "docs/index.html"
+DATA_PATH = "data.txt"
 PLACEHOLDER_START = "<!-- apple starts -->"
 PLACEHOLDER_END   = "<!-- apple ends -->"
 
-# 访问密码（可自行修改）
 ACCESS_PASSWORD = os.environ.get("PAGE_PASSWORD", "apple2026")
 
-raw_urls = os.environ.get("URLS", "")
-urls = [u.strip() for u in raw_urls.split(",") if u.strip()]
-
-if not urls:
-    print("⚠️  未读取到任何 URL，跳过抓取。")
-    sys.exit(0)
-
-all_accounts = []
-for url in urls:
-    try:
-        print(f"🔍 正在抓取: {url}")
-        resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
-        resp.raise_for_status()
-        found = EMAIL_RE.findall(resp.text)
-        found = list(dict.fromkeys(e for e in found if len(e) < 80))
-        print(f"   ✅ 找到 {len(found)} 个账号")
-        all_accounts.extend(found)
-    except requests.exceptions.Timeout:
-        print(f"   ⏰ 超时，跳过: {url}")
-    except requests.exceptions.HTTPError as e:
-        print(f"   ❌ HTTP 错误 {e.response.status_code}，跳过: {url}")
-    except requests.exceptions.RequestException as e:
-        print(f"   ❌ 请求失败，跳过: {url} — {e}")
-    except Exception as e:
-        print(f"   ❌ 未知错误，跳过: {url} — {e}")
-
-all_accounts = list(dict.fromkeys(all_accounts))
-print(f"\n📦 共获取 {len(all_accounts)} 个账号（去重后）")
+# ── 读取 data.txt ──────────────────────────────────────────────
+accounts = []
+try:
+    with open(DATA_PATH, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split("----")
+            if len(parts) >= 2:
+                acc = parts[0].strip()
+                pwd = parts[1].strip()
+                region = parts[2].strip() if len(parts) >= 3 else "未知"
+                accounts.append({"acc": acc, "pwd": pwd, "region": region})
+    print(f"✅ 读取到 {len(accounts)} 个账号")
+except FileNotFoundError:
+    print("⚠️  data.txt 不存在，生成空页面")
+except Exception as e:
+    print(f"❌ 读取 data.txt 失败: {e}")
+    sys.exit(1)
 
 # ── 更新 README.md ─────────────────────────────────────────────
-if all_accounts:
-    block_lines = ["| Apple ID | 备注 |", "|----------|------|"]
-    for acc in all_accounts:
-        block_lines.append(f"| `{acc}` | 自动抓取 |")
-    new_block = "\n".join(block_lines)
-else:
-    new_block = "> 暂未抓取到账号，请稍后刷新。"
-
+import re
 try:
     with open(README_PATH, "r", encoding="utf-8") as f:
         content = f.read()
 except FileNotFoundError:
     content = f"{PLACEHOLDER_START}\n{PLACEHOLDER_END}\n"
+
+if accounts:
+    block_lines = ["| Apple ID | 地区 |", "|----------|------|"]
+    for a in accounts:
+        block_lines.append(f"| `{a['acc']}` | {a['region']} |")
+    new_block = "\n".join(block_lines)
+else:
+    new_block = "> 暂无账号数据。"
 
 pattern = re.compile(
     rf"{re.escape(PLACEHOLDER_START)}.*?{re.escape(PLACEHOLDER_END)}",
@@ -83,23 +63,17 @@ except Exception as e:
     print(f"❌ 写入 README.md 失败: {e}")
     sys.exit(1)
 
-# ── 生成混淆后的账号数据（JS用） ────────────────────────────────
+# ── 混淆函数 ───────────────────────────────────────────────────
 def obfuscate(text):
-    """简单异或混淆，key=7，防止直接在源码看到明文"""
     return ','.join(str(ord(c) ^ 7) for c in text)
 
 update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+count = len(accounts)
 
-if all_accounts:
-    # 把所有账号打包成JSON再混淆
-    import json
-    data_json = json.dumps(all_accounts, ensure_ascii=False)
-    obf_data = obfuscate(data_json)
-    count = len(all_accounts)
-else:
-    obf_data = obfuscate("[]")
-    count = 0
+data_json = json.dumps(accounts, ensure_ascii=False)
+obf_data = obfuscate(data_json)
 
+# ── 生成 HTML ──────────────────────────────────────────────────
 html = f"""<!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -119,16 +93,19 @@ html = f"""<!DOCTYPE html>
     .lock-box button{{width:100%;margin-top:12px;padding:12px;background:#0071e3;color:#fff;border:none;border-radius:10px;font-size:1em;cursor:pointer}}
     .lock-box button:hover{{background:#0077ed}}
     .lock-box .err{{color:#ff3b30;font-size:.85em;margin-top:8px;display:none}}
-    .container{{max-width:720px;margin:0 auto;display:none}}
+    .container{{max-width:780px;margin:0 auto;display:none}}
     .info{{text-align:center;color:#6e6e73;font-size:.85em;margin-bottom:14px}}
     table{{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}}
     thead{{background:#1d1d1f;color:#fff}}
-    th,td{{padding:13px 16px;text-align:left;border-bottom:1px solid #f0f0f0}}
+    th,td{{padding:13px 16px;text-align:left;border-bottom:1px solid #f0f0f0;font-size:.9em}}
     tr:last-child td{{border-bottom:none}}
     tr:hover{{background:#f9f9f9}}
-    .acc{{font-family:monospace;font-size:.9em}}
+    .acc{{font-family:monospace}}
+    .pwd{{font-family:monospace;filter:blur(4px);cursor:pointer;transition:.2s}}
+    .pwd:hover{{filter:none}}
+    .region{{background:#e8f4fd;color:#0071e3;padding:2px 8px;border-radius:20px;font-size:.8em}}
     .warn{{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;border-radius:8px;font-size:.85em;color:#7a6000;margin-bottom:16px}}
-    button.copy{{background:#0071e3;color:#fff;border:none;padding:5px 12px;border-radius:7px;cursor:pointer;font-size:.82em}}
+    button.copy{{background:#0071e3;color:#fff;border:none;padding:5px 10px;border-radius:7px;cursor:pointer;font-size:.8em;margin-right:4px}}
     button.copy:hover{{background:#0077ed}}
     button.copied{{background:#34c759}}
     .toast{{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 24px;border-radius:20px;font-size:.9em;opacity:0;transition:opacity .3s;pointer-events:none}}
@@ -136,8 +113,6 @@ html = f"""<!DOCTYPE html>
   </style>
 </head>
 <body>
-
-<!-- 锁屏层 -->
 <div class="lock-box" id="lockBox">
   <div style="font-size:2.5em;margin-bottom:12px">🔐</div>
   <h2>访问验证</h2>
@@ -147,14 +122,13 @@ html = f"""<!DOCTYPE html>
   <div class="err" id="errMsg">密码错误，请重试</div>
 </div>
 
-<!-- 内容层（默认隐藏） -->
 <div class="container" id="mainContent">
   <h1>🍎 共享 Apple ID</h1>
-  <p class="sub">每30分钟自动更新 · 仅供学习使用</p>
+  <p class="sub">仅供学习使用 · 请勿修改密码</p>
   <div class="warn">⚠️ 请仅在 <strong>App Store</strong> 登录，切勿登录 iCloud，否则可能锁机！</div>
-  <div class="info" id="info">共 {count} 个账号 · 更新时间：{update_time}</div>
+  <div class="info">共 {count} 个账号 · 更新时间：{update_time}</div>
   <table>
-    <thead><tr><th>Apple ID</th><th>操作</th></tr></thead>
+    <thead><tr><th>Apple ID</th><th>密码（悬停显示）</th><th>地区</th><th>操作</th></tr></thead>
     <tbody id="tbody"></tbody>
   </table>
 </div>
@@ -162,11 +136,9 @@ html = f"""<!DOCTYPE html>
 <div class="toast" id="toast">✅ 已复制！</div>
 
 <script>
-// 混淆数据
 const _d = [{obf_data}];
 const _p = "{ACCESS_PASSWORD}";
 
-// 解混淆
 function deobf(arr) {{
   return arr.map(n => String.fromCharCode(n ^ 7)).join('');
 }}
@@ -185,32 +157,37 @@ function checkPwd() {{
 
 function renderTable() {{
   const raw = deobf(_d);
-  let accounts = [];
-  try {{ accounts = JSON.parse(raw); }} catch(e) {{}}
+  let data = [];
+  try {{ data = JSON.parse(raw); }} catch(e) {{}}
   const tbody = document.getElementById('tbody');
-  if (!accounts.length) {{
-    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:#999;padding:30px">暂无账号，请稍后刷新</td></tr>';
+  if (!data.length) {{
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#999;padding:30px">暂无账号数据</td></tr>';
     return;
   }}
-  tbody.innerHTML = accounts.map(acc => `
+  tbody.innerHTML = data.map(item => `
     <tr>
-      <td class="acc">${{acc}}</td>
-      <td><button class="copy" onclick="copyText('${{acc}}',this)">复制</button></td>
+      <td class="acc">${{item.acc}}</td>
+      <td><span class="pwd" title="悬停查看密码">${{item.pwd}}</span></td>
+      <td><span class="region">${{item.region}}</span></td>
+      <td>
+        <button class="copy" onclick="copyText('${{item.acc}}',this)">复制账号</button>
+        <button class="copy" onclick="copyText('${{item.pwd}}',this)">复制密码</button>
+      </td>
     </tr>`).join('');
 }}
 
 function copyText(t, btn) {{
   navigator.clipboard.writeText(t).then(() => {{
+    const orig = btn.textContent;
     btn.textContent = '✅';
     btn.classList.add('copied');
-    setTimeout(() => {{ btn.textContent = '复制'; btn.classList.remove('copied'); }}, 2000);
+    setTimeout(() => {{ btn.textContent = orig; btn.classList.remove('copied'); }}, 2000);
     const toast = document.getElementById('toast');
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2000);
   }});
 }}
 
-// 若本次会话已验证，自动解锁
 if (sessionStorage.getItem('auth') === '1') {{
   document.getElementById('lockBox').style.display = 'none';
   document.getElementById('mainContent').style.display = 'block';
