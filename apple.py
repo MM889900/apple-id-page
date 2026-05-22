@@ -106,7 +106,7 @@ html = f"""<!DOCTYPE html>
   </a>
 
   <div class="footer">
-    短域名：<strong>ios3.cn</strong> | 喜欢本站请按 Ctrl + D 收藏
+    独享永久专拍：<strong>ios3.cn</strong> | 喜欢本站请按 Ctrl + D 收藏
   </div>
 </div>
 
