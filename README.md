@@ -3,8 +3,8 @@
 <!-- apple starts -->
 | Apple ID | 地区 |
 |----------|------|
-| `oliver.smith@icloud.com` | 英区 |
-| `wang.xiaoming@icloud.com` | 港区 |
-| `lim.weijie@icloud.com` | 新加坡 |
-| `anna.schmidt@gmail.com` | 德区 |
+| `mary.jackson@gmail.com` | 美区 |
+| `lee.jiyeon@me.com` | 韩区 |
+| `george.jones@gmail.com` | 英区 |
+| `nakamura.ren@me.com` | 日区 |
 <!-- apple ends -->
