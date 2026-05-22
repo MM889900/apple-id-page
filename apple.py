@@ -91,7 +91,7 @@ html = f"""<!DOCTYPE html>
 
 <div class="header">
   <h1>🍎 共享苹果id（每日更新）</h1>
-  <p class="sub">日区 / 港区 / 台区 / 美区 Apple ID · 免费 Shadowrocket 节点</p>
+  <p class="sub">日区 / 港区 / 台区 / 美区 Apple ID ·  Shadowrocket 节点</p>
 </div>
 
 <div class="container">
