@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `lin.weizhen@icloud.com` | 台湾 |
-| `anna.schmidt@gmail.com` | 德区 |
-| `lim.weijie@icloud.com` | 新加坡 |
-| `fatima.hassan@gmail.com` | 阿联酋 |
+| `yamamoto.kenji@me.com` | 日区 |
 | `ahmed.ali@icloud.com` | 阿联酋 |
-| `lisa.anderson@icloud.com` | 美区 |
+| `ong.jiawen@icloud.com` | 新加坡 |
+| `tan.jiaming@gmail.com` | 新加坡 |
+| `liu.xiaohong@gmail.com` | 港区 |
 <!-- apple ends -->
