@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `lin.weizhen@icloud.com` | 台湾 |
-| `yamamoto.kenji@me.com` | 日区 |
-| `ahmed.ali@icloud.com` | 阿联酋 |
-| `ong.jiawen@icloud.com` | 新加坡 |
-| `tan.jiaming@gmail.com` | 新加坡 |
-| `liu.xiaohong@gmail.com` | 港区 |
+| `nakamura.ren@me.com` | 日区 |
+| `cai.mingzhi@gmail.com` | 台湾 |
+| `wu.junhao@me.com` | 台湾 |
+| `lee.jiyeon@me.com` | 韩区 |
+| `james.thomas@me.com` | 美区 |
 <!-- apple ends -->
