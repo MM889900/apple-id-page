@@ -1,10 +1,10 @@
 # apple-id-page## 🍎 共享 Apple ID
 
 <!-- apple starts -->
-| `robert.white@icloud.com` | 美区 |
-| `wang.xiaoming@icloud.com` | 港区 |
-| `pierre.martin@icloud.com` | 法区 |
-| `fatima.hassan@gmail.com` | 阿联酋 |
-| `zheng.xiaoyu@icloud.com` | 台湾 |
-| `yamamoto.kenji@me.com` | 日区 |
+| `lin.weizhen@icloud.com` | 台湾 |
+| `sarah.wilson99@icloud.com` | 美区 |
+| `liu.xiaohong@gmail.com` | 港区 |
+| `ahmed.ali@icloud.com` | 阿联酋 |
+| `tan.jiaming@gmail.com` | 新加坡 |
+| `zhang.mingming@icloud.com` | 港区 |
 <!-- apple ends -->
