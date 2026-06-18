@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `tanaka.yuki@icloud.com` | 日区 |
-| `choi.sungmin@icloud.com` | 韩区 |
-| `lin.weizhen@icloud.com` | 台湾 |
-| `harry.williams@me.com` | 英区 |
-| `jung.hyerin@gmail.com` | 韩区 |
-| `mary.jackson@gmail.com` | 美区 |
+| `huang.yating@gmail.com` | 台湾 |
+| `luca.ferrari@icloud.com` | 意大利 |
+| `lisa.anderson@icloud.com` | 美区 |
+| `marie.bernard@gmail.com` | 法区 |
+| `chen.jiayi@gmail.com` | 港区 |
 <!-- apple ends -->
