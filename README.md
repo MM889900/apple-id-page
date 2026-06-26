@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `john.smith2024@icloud.com` | 美区 |
-| `anna.schmidt@gmail.com` | 德区 |
-| `george.jones@gmail.com` | 英区 |
-| `lim.weijie@icloud.com` | 新加坡 |
-| `hans.mueller@icloud.com` | 德区 |
-| `carlos.garcia@icloud.com` | 墨西哥 |
+| `zhang.mingming@icloud.com` | 港区 |
+| `ng.xiaohui@me.com` | 新加坡 |
+| `marie.bernard@gmail.com` | 法区 |
+| `cai.mingzhi@gmail.com` | 台湾 |
+| `mary.jackson@gmail.com` | 美区 |
 <!-- apple ends -->
