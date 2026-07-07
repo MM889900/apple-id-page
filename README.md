@@ -1,10 +1,10 @@
 # apple-id-page## 🍎 共享 Apple ID
 
 <!-- apple starts -->
-| `choi.sungmin@icloud.com` | 韩区 |
-| `giulia.rossi@gmail.com` | 意大利 |
-| `david.taylor@gmail.com` | 美区 |
-| `ahmed.ali@icloud.com` | 阿联酋 |
-| `lisa.anderson@icloud.com` | 美区 |
-| `sarah.wilson99@icloud.com` | 美区 |
+| `fatima.hassan@gmail.com` | 阿联酋 |
+| `yamamoto.kenji@me.com` | 日区 |
+| `robert.white@icloud.com` | 美区 |
+| `emma.johnson@gmail.com` | 英区 |
+| `harry.williams@me.com` | 英区 |
+| `emily.jones88@gmail.com` | 美区 |
 <!-- apple ends -->
