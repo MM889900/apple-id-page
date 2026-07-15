@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `patricia.harris@me.com` | 美区 |
-| `sato.haruki@gmail.com` | 日区 |
-| `ng.xiaohui@me.com` | 新加坡 |
-| `giulia.rossi@gmail.com` | 意大利 |
-| `choi.sungmin@icloud.com` | 韩区 |
-| `wu.junhao@me.com` | 台湾 |
+| `wang.xiaoming@icloud.com` | 港区 |
+| `ong.jiawen@icloud.com` | 新加坡 |
+| `emily.jones88@gmail.com` | 美区 |
+| `tanaka.yuki@icloud.com` | 日区 |
+| `huang.yating@gmail.com` | 台湾 |
 <!-- apple ends -->
