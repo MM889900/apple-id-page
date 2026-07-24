@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `nakamura.ren@me.com` | 日区 |
-| `wu.junhao@me.com` | 台湾 |
-| `oliver.smith@icloud.com` | 英区 |
-| `ong.jiawen@icloud.com` | 新加坡 |
-| `choi.sungmin@icloud.com` | 韩区 |
-| `lisa.anderson@icloud.com` | 美区 |
+| `wang.xiaoming@icloud.com` | 港区 |
+| `goh.mingwei@gmail.com` | 新加坡 |
+| `michael.brown@me.com` | 美区 |
+| `marie.bernard@gmail.com` | 法区 |
+| `john.smith2024@icloud.com` | 美区 |
 <!-- apple ends -->
