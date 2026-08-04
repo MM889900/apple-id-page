@@ -1,10 +1,10 @@
 # apple-id-page## 🍎 共享 Apple ID
 
 <!-- apple starts -->
-| `oliver.smith@icloud.com` | 英区 |
-| `wang.xiaoming@icloud.com` | 港区 |
-| `goh.mingwei@gmail.com` | 新加坡 |
+| `huang.yating@gmail.com` | 台湾 |
+| `lisa.anderson@icloud.com` | 美区 |
 | `robert.white@icloud.com` | 美区 |
-| `giulia.rossi@gmail.com` | 意大利 |
-| `john.smith2024@icloud.com` | 美区 |
+| `sato.haruki@gmail.com` | 日区 |
+| `emily.jones88@gmail.com` | 美区 |
+| `cai.mingzhi@gmail.com` | 台湾 |
 <!-- apple ends -->
