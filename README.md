@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `liu.xiaohong@gmail.com` | 港区 |
-| `robert.white@icloud.com` | 美区 |
+| `wang.xiaoming@icloud.com` | 港区 |
 | `wu.junhao@me.com` | 台湾 |
-| `choi.sungmin@icloud.com` | 韩区 |
-| `chen.jiayi@gmail.com` | 港区 |
-| `luca.ferrari@icloud.com` | 意大利 |
+| `patricia.harris@me.com` | 美区 |
+| `ong.jiawen@icloud.com` | 新加坡 |
+| `kim.jisoo@icloud.com` | 韩区 |
 <!-- apple ends -->
