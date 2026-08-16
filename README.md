@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `marco.bianchi@me.com` | 意大利 |
-| `ng.xiaohui@me.com` | 新加坡 |
-| `lisa.anderson@icloud.com` | 美区 |
-| `harry.williams@me.com` | 英区 |
-| `george.jones@gmail.com` | 英区 |
-| `chen.jiayi@gmail.com` | 港区 |
+| `sarah.wilson99@icloud.com` | 美区 |
+| `liu.xiaohong@gmail.com` | 港区 |
+| `emily.jones88@gmail.com` | 美区 |
+| `zhang.mingming@icloud.com` | 港区 |
+| `giulia.rossi@gmail.com` | 意大利 |
 <!-- apple ends -->
