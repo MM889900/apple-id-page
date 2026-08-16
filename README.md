@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `luca.ferrari@icloud.com` | 意大利 |
-| `kim.jisoo@icloud.com` | 韩区 |
-| `pierre.martin@icloud.com` | 法区 |
-| `george.jones@gmail.com` | 英区 |
-| `patricia.harris@me.com` | 美区 |
-| `oliver.smith@icloud.com` | 英区 |
+| `james.thomas@me.com` | 美区 |
+| `yamamoto.kenji@me.com` | 日区 |
+| `michael.brown@me.com` | 美区 |
+| `hans.mueller@icloud.com` | 德区 |
+| `robert.white@icloud.com` | 美区 |
 <!-- apple ends -->
