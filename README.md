@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `tanaka.yuki@icloud.com` | 日区 |
-| `harry.williams@me.com` | 英区 |
-| `mary.jackson@gmail.com` | 美区 |
-| `ng.xiaohui@me.com` | 新加坡 |
-| `pierre.martin@icloud.com` | 法区 |
-| `huang.yating@gmail.com` | 台湾 |
+| `hans.mueller@icloud.com` | 德区 |
+| `tan.jiaming@gmail.com` | 新加坡 |
+| `wang.xiaoming@icloud.com` | 港区 |
+| `lisa.anderson@icloud.com` | 美区 |
+| `chen.jiayi@gmail.com` | 港区 |
 <!-- apple ends -->
