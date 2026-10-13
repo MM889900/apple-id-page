@@ -1,10 +1,10 @@
 # apple-id-page## 🍎 共享 Apple ID
 
 <!-- apple starts -->
-| `harry.williams@me.com` | 英区 |
-| `emma.johnson@gmail.com` | 英区 |
-| `luca.ferrari@icloud.com` | 意大利 |
-| `john.smith2024@icloud.com` | 美区 |
-| `patricia.harris@me.com` | 美区 |
-| `nakamura.ren@me.com` | 日区 |
+| `lin.weizhen@icloud.com` | 台湾 |
+| `fatima.hassan@gmail.com` | 阿联酋 |
+| `kim.jisoo@icloud.com` | 韩区 |
+| `marco.bianchi@me.com` | 意大利 |
+| `choi.sungmin@icloud.com` | 韩区 |
+| `suzuki.aoi@icloud.com` | 日区 |
 <!-- apple ends -->
