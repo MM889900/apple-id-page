@@ -2,9 +2,9 @@
 
 <!-- apple starts -->
 | `luca.ferrari@icloud.com` | 意大利 |
-| `giulia.rossi@gmail.com` | 意大利 |
+| `chen.jiayi@gmail.com` | 港区 |
+| `zheng.xiaoyu@icloud.com` | 台湾 |
+| `david.taylor@gmail.com` | 美区 |
 | `george.jones@gmail.com` | 英区 |
-| `jung.hyerin@gmail.com` | 韩区 |
-| `yamamoto.kenji@me.com` | 日区 |
-| `wu.junhao@me.com` | 台湾 |
+| `sophia.brown@icloud.com` | 英区 |
 <!-- apple ends -->
